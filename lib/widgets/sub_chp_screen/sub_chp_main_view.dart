@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Root Widget of the Subject's Chapter Screen Main Component.
 class SubChpMainView extends StatelessWidget {
@@ -20,7 +20,7 @@ class SubChpMainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _scrollController = ScrollController();
+    final ScrollController _scrollController = ScrollController();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -30,7 +30,7 @@ class SubChpMainView extends StatelessWidget {
           child: Container(
             alignment: Alignment.topLeft,
             child: Text(
-              "Subject Code",
+              'Subject Code',
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
@@ -69,7 +69,7 @@ class SubChpMainView extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Chapter",
+                        'Chapter',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.button,
                         overflow: TextOverflow.ellipsis,
@@ -92,7 +92,7 @@ class SubChpMainView extends StatelessWidget {
             icon: const FaIcon(FontAwesomeIcons.chevronDown),
             onPressed: () async {
               // Delay to make sure the frames are rendered properly
-              await Future.delayed(const Duration(milliseconds: 100));
+              await Future<dynamic>.delayed(const Duration(milliseconds: 100));
               SchedulerBinding.instance?.addPostFrameCallback((_) {
                 _scrollController.animateTo(
                   _scrollController.position.viewportDimension,
