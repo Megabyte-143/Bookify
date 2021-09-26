@@ -7,10 +7,16 @@ import '../model/semester.dart';
 class SemesterProvider with ChangeNotifier {
   final List<Semester> _semesterList = <Semester>[
     Semester(
-      title: '1st Semester',
-      courseName: 'B.tech',
-      sem: 1,
-      departmentName: 'Information Technology',
+      title: 'Physics Cycle',
+      courseID: 'btech',
+      id: 1,
+      departmentID: 'fy',
+    ),
+    Semester(
+      title: 'Chemistry Cycle',
+      courseID: 'btech',
+      id: 2,
+      departmentID: 'fy',
     ),
   ];
 
@@ -19,18 +25,18 @@ class SemesterProvider with ChangeNotifier {
 
   /// Function to showcase the final list of Semester department wise.
   List<Semester> findSemester(
-    String courseName,
-    String departmentName,
+    String courseID,
+    String departmentID,
   ) {
     final List<Semester> finalSemesterList = semesterList
         .where(
           (Semester element) =>
-              element.courseName
+              element.courseID
                   .toLowerCase()
-                  .contains(courseName.toLowerCase()) &&
-              element.departmentName
+                  .contains(courseID.toLowerCase()) &&
+              element.departmentID
                   .toLowerCase()
-                  .contains(departmentName.toLowerCase()),
+                  .contains(departmentID.toLowerCase()),
         )
         .toList();
     return finalSemesterList;

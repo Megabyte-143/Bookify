@@ -3,17 +3,28 @@ class Subject {
   ///Constructor
   Subject({
     required this.title,
-    required this.sem,
-    required this.departmentName,
-    required this.courseName,
+    required this.semID,
+    required this.departmentID,
+    required this.courseID,
+    required this.id,
+    required this.name, 
   });
 
   /// Subject title (Ex=> MA2101)
   String title;
+
   /// The no. of Semester
-  int sem;
-  /// Name of the Department
-  String departmentName;
-  /// Name of the Course
-  String courseName;
+  int semID;
+
+  /// ID of the Department
+  String departmentID;
+
+  /// ID of the Course
+  String courseID;
+
+  /// ID of the Subject (Ex=> ma2101)
+  String id;
+
+  /// Name of the Subject
+  String name;
 }
