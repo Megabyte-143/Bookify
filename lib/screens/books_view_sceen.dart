@@ -1,17 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import './bottom_navigation_screen.dart';
-
-import '../model/book.dart';
-
-import '../provider/books_provider.dart';
 
 import '../widgets/book_tile.dart';
 import '../widgets/text_header.dart';
 
+/// Root Widget of the Books View Screen
 class BooksViewScreen extends StatefulWidget {
+  /// Rootname of the Books View Screen
   static const String routename = '/books_view_screen';
   @override
   _BooksViewScreenState createState() => _BooksViewScreenState();
@@ -23,6 +21,7 @@ class _BooksViewScreenState extends State<BooksViewScreen> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final BooksArguments args =
+        // ignore: cast_nullable_to_non_nullable
         ModalRoute.of(context)!.settings.arguments as BooksArguments;
     final User? user = FirebaseAuth.instance.currentUser;
     final String userID = user!.uid;
@@ -44,42 +43,58 @@ class _BooksViewScreenState extends State<BooksViewScreen> {
             ),
           ),
           SizedBox(
-            height: height * 0.6,
-            child: Consumer<BooksProvider>(
-              builder: (
-                BuildContext context,
-                BooksProvider booksList,
-                Widget? child,
-              ) {
-                final List<Book> books = booksList.findBook(
-                  args.courseID,
-                  args.departmentID,
-                  args.semID,
-                  args.subID,
-                );
-                return ListView.builder(
-                  itemBuilder: (
-                    BuildContext ctx,
-                    int i,
-                  ) {
-                    return BookTile(
-                      userID: userID,
-                      title: books[i].title,
-                      author: books[i].author,
-                      imgUrl: books[i].imgUrl,
-                      saveStatus: books[i].saveStatus,
-                      id: books[i].id,
-                      downloadUrl: books[i].downloadUrl,
-                      viewUrl: books[i].viewUrl,
-                      height: height,
-                      width: width,
+              height: height * 0.6,
+              child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                future: FirebaseFirestore.instance
+                    .collection('courses')
+                    .doc(args.courseID)
+                    .collection('departments')
+                    .doc(args.departmentID)
+                    .collection('semesters')
+                    .doc(args.semID.toString())
+                    .collection('subjects')
+                    .doc(args.subID)
+                    .collection('books')
+                    .get(),
+                builder: (
+                  ctx,
+                  snapshot,
+                ) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  },
-                  itemCount: books.length,
-                );
-              },
-            ),
-          ),
+                  } else {
+                    final list = snapshot.data!.docs;
+                    return list.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'Coming Soon',
+                            ),
+                          )
+                        : ListView.builder(
+                            itemBuilder: (
+                              BuildContext ctx,
+                              int i,
+                            ) {
+                              return BookTile(
+                                userID: userID,
+                                title: list[i]['title'].toString(),
+                                // saveStatus: false,
+                                author: list[i]['author'].toString(),
+                                imgUrl: list[i]['imgUrl'].toString(),
+                                id: list[i]['id'].toString(),
+                                downloadUrl: list[i]['downloadUrl'].toString(),
+                                viewUrl: list[i]['viewUrl'].toString(),
+                                height: height,
+                                width: width,
+                              );
+                            },
+                            itemCount: list.length,
+                          );
+                  }
+                },
+              )),
           TextButton(
             onPressed: () {
               Navigator.of(context).pushNamedAndRemoveUntil(
@@ -107,7 +122,9 @@ class _BooksViewScreenState extends State<BooksViewScreen> {
   }
 }
 
+/// Argument Class for the Books View Screen
 class BooksArguments {
+  /// Constructor
   BooksArguments({
     required this.courseID,
     required this.departmentID,
@@ -115,9 +132,19 @@ class BooksArguments {
     required this.subID,
     required this.subName,
   });
+
+  /// CourseID of the Course User Selected
   String courseID;
+
+  /// DepartmentID of the Department User Selected
   String departmentID;
+
+  /// SubjectID of the Subject User Selected
   String subID;
+
+  /// Subject Name of the Subject User Selected
   String subName;
+
+  /// SemesterID of the Semester User Selected
   int semID;
 }

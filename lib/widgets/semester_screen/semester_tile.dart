@@ -1,37 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/user_provider.dart';
+
+import '../../screens/bottom_navigation_screen.dart';
 import '../../screens/sub_screen.dart';
 
-class Semester extends StatefulWidget {
-  const Semester({
+/// Widget of the Semester Screen to Display the Name of the Semester.
+class SemesterTile extends StatelessWidget {
+  /// Constructor
+  const SemesterTile({
     required this.sem,
     required this.departmentID,
     required this.semID,
+    required this.ctx,
+    required this.courseID,
   });
+
+  /// Name of the Semester
   final String sem;
+
+  /// Semester ID
   final int semID;
+
+  /// Department ID
   final String departmentID;
 
-  @override
-  _SemesterState createState() => _SemesterState();
-}
+  final String courseID;
 
-class _SemesterState extends State<Semester> {
+  /// Context of the Semester Screeen for User Provider
+  final BuildContext ctx;
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final user = Provider.of<UserProvider>(ctx);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         TextButton(
           onPressed: () {
             Navigator.of(context).pushNamed(
-              SubScreen.routename,
+              BottomNavigationScreen.routename,
               arguments: SubScreenArguments(
-                'btech',
-                widget.departmentID,
-                widget.semID,
+                courseID: courseID,
+                departmentID: departmentID,
+                semID: semID,
               ),
+            );
+            user.addSemester(
+              semID,
+              sem,
             );
           },
           child: Container(
@@ -43,7 +62,7 @@ class _SemesterState extends State<Semester> {
             ),
             child: Center(
               child: Text(
-                widget.sem,
+                sem,
                 style: Theme.of(context).textTheme.button,
               ),
             ),

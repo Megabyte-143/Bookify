@@ -4,14 +4,14 @@ import '../widgets/about_screen/dev_tile.dart';
 import '../widgets/text_header.dart';
 
 /// Root widget of the About Screen
-class AboutScreen extends StatefulWidget {
+class AboutDevScreen extends StatefulWidget {
   /// Route name of the About Screen
   static const String routename = '/about_screen';
   @override
-  _AboutScreenState createState() => _AboutScreenState();
+  _AboutDevScreenState createState() => _AboutDevScreenState();
 }
 
-class _AboutScreenState extends State<AboutScreen> {
+class _AboutDevScreenState extends State<AboutDevScreen> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -29,8 +29,13 @@ class _AboutScreenState extends State<AboutScreen> {
                 topRight: 'assets/images/about_screen_top_right.png',
                 topLeft: 'assets/images/about_screen_top_left.png',
                 title: 'MEET THE TEAM',
-                subTitle: 'APP DEVELOPERS',
+                subTitle: 'BLACKTIMBER LABS',
               ),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'UI/UX Designer',
+              style: Theme.of(context).textTheme.button,
             ),
             const DevTile(
               name: 'Chhavi Maheshwari',
@@ -38,6 +43,11 @@ class _AboutScreenState extends State<AboutScreen> {
               gitUrl: 'https://github.com/chhavi30m',
               linkedInUrl:
                   'https://www.linkedin.com/in/chhavi-maheshwari-2841201b9',
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'App developers',
+              style: Theme.of(context).textTheme.button,
             ),
             const DevTile(
               name: 'Harshita Sadadekar',
@@ -58,6 +68,23 @@ class _AboutScreenState extends State<AboutScreen> {
               img: 'assets/images/about_screen_Yash.jpg',
               gitUrl: 'https://github.com/Megabyte-143',
               linkedInUrl: 'https://www.linkedin.com/in/yash-garg-megabyte',
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'Core Members',
+              style: Theme.of(context).textTheme.button,
+            ),
+            const DevTile(
+              name: 'Yash Arora',
+              img: 'assets/images/about_screen_YashArora.jpg',
+              gitUrl: 'https://github.com/yashar1908',
+              linkedInUrl: 'https://www.linkedin.com/in/yash-arora-2763a81b9/',
+            ),
+            const DevTile(
+              name: 'Mahi Badaya',
+              img: 'assets/images/about_screen_Mahi.jpg',
+              gitUrl: 'https://github.com/Mahi-Badaya',
+              linkedInUrl: 'https://www.linkedin.com/in/mahibadaya/',
             ),
           ],
         ),
